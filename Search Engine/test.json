@@ -1,0 +1,6 @@
+{
+	"inputPath": "input",
+	"outputPath": "output/result.txt",
+	"digitDelimiter": false,
+	"searchPath": "queries/simple.txt"
+}
