@@ -1,0 +1,107 @@
+public class ElielBoard
+{
+	private final int MAX = 8;
+	private int[][] boardGrid;
+	private boolean[][] visited;
+	
+	/**
+	 * Constructor to set up the board Initiates all board values to 0
+	 */
+	public ElielBoard()
+	{
+		visited = new boolean[MAX][MAX];
+		boardGrid = new int[MAX][MAX];
+		
+		for (int i = 0; i < MAX; i++)
+		{
+			for (int j = 0; j < MAX; j++)
+			{
+				boardGrid[i][j] = 0;
+			}
+		}
+
+	}
+
+	/**
+	 * Checks if a player has made a valid move or not
+	 * @param playerNum
+	 * 					- the player
+	 * @param move
+	 * 					- the move the player is taking
+	 * @return
+	 * 					- whether the move was valid or not, if valid, return same move
+	 * 					  if not return null
+	 */
+	public Move checkValidMove(int playerNum, Move move)
+	{
+		if(!CheckBoard.validMove(playerNum, move, boardGrid))
+		{
+			return null;
+		}
+		else
+		{
+			return move;
+		}
+		
+
+	}
+	
+	/**
+	 * Places a player's piece at at a valid location on the board
+	 * 
+	 * @param move
+	 * @param playerNum
+	 * @return
+	 */
+	boolean placePiece(Move move, int playerNum) 
+	{
+		int rowIndex = move.toRow-'A';
+		int colIndex = move.toCol-1;
+
+		if (move.moveType == Move.MoveType.PLACE_PIECE)
+		{
+			boardGrid[rowIndex][colIndex] = playerNum;
+		}
+		else
+		{
+//			boardGrid[move.fromRow-'A'][move.fromCol-1] = 0;
+//
+//			boardGrid[rowIndex][colIndex] = playerNum;
+		}
+
+		return true;
+	}
+	
+	/**
+	 * Prints out the network board 
+	 * Called after each player has moved
+	 */
+	public void printBoard()
+	{
+		System.out.print("   1 2 3 4 5 6 7 8 \n");
+
+		for (int i = 0; i < MAX; i++)
+		{
+			System.out.print((char) ('A' + i));
+			System.out.print("  ");
+
+			for (int j = 0; j < MAX; j++)
+			{
+				if (boardGrid[i][j] == 0)
+				{
+					System.out.print(". ");
+				}
+				if (boardGrid[i][j] == 1)
+				{
+					System.out.print("1 ");
+				}
+				if (boardGrid[i][j] == 2)
+				{
+					System.out.print("2 ");
+				}
+			}
+			System.out.print("\n");
+		}
+	}
+
+}

@@ -1,0 +1,163 @@
+import java.util.Random;
+
+public class SortTest
+{
+
+    static int NUMITER = 5;
+    static int listsize = 10000;
+    static Comparable[] list = new Comparable[listsize];
+    static long startTime, endTime;
+    static double duration;
+    static int[] radixList = new int[listsize];
+
+    public static void main(String[] args)
+    {
+        Random randomGenerator = new Random();
+
+//        LLNode head = new LLNode(0);
+//        for (int j = 1; j < listsize; j++)
+//        {
+//            LLNode node = new LLNode(randomGenerator.nextInt(50));
+//            head.setNext(node);
+//        }
+
+//        Random randomGenerator = new Random();
+        Sort sorter = new Sort();
+
+        startTime = System.currentTimeMillis();
+        for (int i = 0; i < NUMITER; i++)
+        {
+            for (int j = 0; j < listsize; j++)
+                list[j] = j;
+//            for (int j = 0; j < radixList.length; j++)
+//            {
+//                long b = j;
+//                radixList[j] = j;
+//            }
+            //LLNode head = generateLinkedList();
+            //LLNode head = generateLinkedListSorted(true);
+            //sorter.insertionSortLL(head, false);
+
+
+            sorter.shellSort(list, 0, listsize - 1, false);
+            //sorter.radixSort(radixList, 0, listsize, true);
+        }
+        endTime = System.currentTimeMillis();
+
+        duration = ((double)(endTime-startTime))/NUMITER - basicTimerSorted(false);
+        System.out.println(duration);
+    }
+
+
+    public static  LLNode generateLinkedList()
+    {
+        Random randomGenerator = new Random();
+
+        LLNode head = new LLNode(randomGenerator.nextInt(100), null);
+        LLNode temp = head;
+
+        for (int i = 0; i < listsize; i++)
+        {
+            temp.setNext(new LLNode(randomGenerator.nextInt(100), null));
+            temp = temp.next();
+        }
+
+        //head = temp;
+        return head;
+    }
+
+    public static  LLNode generateLinkedListSorted(boolean reverse)
+    {
+        Random randomGenerator = new Random();
+
+        LLNode head = new LLNode(randomGenerator.nextInt(100), null);
+        LLNode temp = head;
+        int i;
+
+        for ( i = reverse ? listsize : 0; reverse ? i > 0: i < listsize; i += reverse ? - 1 : 1)
+        {
+            temp.setNext(new LLNode(i, null));
+            temp = temp.next();
+        }
+
+        //head = temp;
+        return head;
+    }
+    /**
+     * Timers
+     * @return
+     */
+
+    public static double llTimer()
+    {
+        startTime = System.currentTimeMillis();
+        for (int i = 0; i < NUMITER; i++)
+        {
+            Random randomGenerator = new Random();
+
+            LLNode head = new LLNode(randomGenerator.nextInt(100), null);
+            LLNode temp = head;
+
+            for (int j = 0; j < listsize; j++)
+            {
+                temp.setNext(new LLNode(randomGenerator.nextInt(100), null));
+                temp = temp.next();
+            }
+
+            head = temp;
+        }
+        endTime = System.currentTimeMillis();
+        duration = ((double)(endTime-startTime))/NUMITER;
+
+        return duration;
+    }
+
+    public static double radixTimer()
+    {
+        startTime = System.currentTimeMillis();
+        for (int i = 0; i < NUMITER; i++)
+        {
+            for (int j = 0; j < radixList.length; j++)
+            {
+                radixList[j] = j;
+            }
+        }
+        endTime = System.currentTimeMillis();
+        duration = ((double)(endTime-startTime))/NUMITER;
+
+        return duration;
+    }
+
+    public static double basicTimer()
+    {
+        Random randomGenerator = new Random();
+
+        startTime = System.currentTimeMillis();
+        for (int i = 0; i < NUMITER; i++)
+        {
+            for (int j = 0; j < listsize; j++)
+                list[j] = randomGenerator.nextInt();
+        }
+        endTime = System.currentTimeMillis();
+        duration = ((double)(endTime-startTime))/NUMITER;
+
+        return duration;
+    }
+
+    public static double basicTimerSorted(boolean reverse)
+    {
+        startTime = System.currentTimeMillis();
+        for (int i = 0; i < NUMITER; i++)
+        {
+            int j;
+            for (j = reverse ? listsize : 0; reverse ? j > 0: j < listsize; j += reverse ? - 1 : 1)
+                list[j] = j;
+        }
+        endTime = System.currentTimeMillis();
+        duration = ((double)(endTime-startTime))/NUMITER;
+
+        return duration;
+    }
+
+
+}

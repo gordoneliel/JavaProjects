@@ -1,0 +1,58 @@
+import java.util.Scanner;
+
+
+public class HumanPlayer extends Player
+{
+	ElielBoard boardGrid;
+	
+	public HumanPlayer(int playerNum)
+	{
+		super(playerNum);
+		boardGrid = new ElielBoard();
+	}
+
+	@Override
+    /**
+     * Moves a human player from one point to another on their board
+     * 
+     * @return
+     */
+    public Move getMove() 
+    { 
+		Scanner sc = SingletonScanner.getInstance();
+
+		Move move = null;
+		while(move==null)
+		{
+			System.out.println("Player" +" " + playerNum + ": Enter row and column position to place your piece");
+			String row = sc.next();
+			int col = sc.nextInt();
+			
+			System.out.println(row.charAt(0) + " " + col);
+			move = new Move(row.charAt(0), col);
+			
+			move = boardGrid.checkValidMove(playerNum, move);
+		}
+
+		boardGrid.placePiece(move, playerNum);
+		return move;
+	}
+
+	@Override
+	public void OpponentMove(Move m)
+	{
+		if(playerNum == 1)
+		{
+			boardGrid.placePiece(m, 2);			
+		} else{
+			boardGrid.placePiece(m, 1);
+		}
+		
+	}
+	
+	public void printBoard()
+	{
+		boardGrid.printBoard();
+	}
+
+}
